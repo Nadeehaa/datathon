@@ -19,4 +19,9 @@ python3 -m venv myenv<br>
 source myenv/bin/activate
 (myenv)<br>
 
+pip install seaborn<br>
+
+
+
+
 
