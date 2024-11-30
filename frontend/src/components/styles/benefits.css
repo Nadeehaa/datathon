@@ -1,0 +1,125 @@
+.benefits-container {
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.page-title {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 20px 0;
+}
+
+.benefit-card {
+    background: #f5f0eb;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    border: 1px solid #e8e0d8;
+}
+
+.benefit-card:hover {
+    transform: translateY(-5px);
+}
+
+.herb-image {
+    height: 200px;
+    overflow: hidden;
+}
+
+.herb-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.benefit-content {
+    padding: 20px;
+}
+
+.herb-names {
+    display: flex;
+    gap: 15px;
+    margin: 10px 0;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.herb-description {
+    color: #444;
+    line-height: 1.6;
+    margin: 15px 0;
+    max-height: 100px;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.herb-description.expanded {
+    max-height: 1000px;
+}
+
+.benefits-list {
+    margin-top: 20px;
+}
+
+.benefits-list h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.benefits-list ul {
+    list-style: none;
+    padding-left: 20px;
+}
+
+.benefits-list li {
+    position: relative;
+    padding: 5px 0;
+    padding-left: 15px;
+    border-bottom: 1px solid #e8e0d8;
+}
+
+.benefits-list li:before {
+    content: "•";
+    color: #2E7D32;
+    position: absolute;
+    left: 0;
+}
+
+.benefits-list li:last-child {
+    border-bottom: none;
+}
+
+.read-more-btn {
+    background: #2E7D32;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.read-more-btn:hover {
+    background: #1B5E20;
+}
+
+@media (max-width: 768px) {
+    .benefits-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .herb-image {
+        height: 180px;
+    }
+} 

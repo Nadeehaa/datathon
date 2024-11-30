@@ -185,4 +185,44 @@ h1 {
     background: #fde2e2;
     border-radius: 4px;
     text-align: center;
+}
+
+/* Add or update these styles in your main.css */
+.content-wrapper {
+    margin-top: 120px;  /* Increased margin-top to create space (2 inches ≈ 120px) */
+    padding: 0 30px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    color: #2E7D32;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #4CAF50;
+}
+
+/* Ensure all main content containers have proper spacing */
+.home-container,
+.benefits-container,
+.farmers-container,
+.blog-container,
+.health-container {
+    padding-top: 20px;
+}
+
+/* Add spacing for section headings */
+h1, h2, h3 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .content-wrapper {
+        margin-top: 140px;  /* Slightly more space on mobile due to wrapped navbar */
+        padding: 0 15px;
+    }
 } 

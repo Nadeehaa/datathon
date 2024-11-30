@@ -1,28 +1,81 @@
 .navbar {
-    background-color: #2c3e50;
-    padding: 10px;
-}
-
-.navbar ul {
-    list-style-type: none;
+    background-color: #e6f3ff;  /* Light blue background */
+    padding: 15px 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     display: flex;
-    justify-content: space-around;
-    margin: 0;
-    padding: 0;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: 60px; /* Fixed height for navbar */
 }
 
-.navbar li {
-    display: inline;
+.nav-brand {
+    font-size: 24px;
+    font-weight: bold;
 }
 
-.navbar a {
-    color: white;
+.nav-brand a {
+    color: #2c3e50;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: #4CAF50;  /* Light green for inactive links */
     text-decoration: none;
     padding: 10px 20px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    display: inline-block;
+    text-align: center;
 }
 
-.navbar a:hover {
-    background-color: #34495e;
+.nav-links a:hover {
+    background-color: rgba(76, 175, 80, 0.1);  /* Light green background on hover */
+}
+
+.nav-links a.active {
+    background-color: #2E7D32;  /* Dark green for active link */
+    color: white;
+}
+
+/* Add margin-top to the content to account for fixed navbar */
+.content-wrapper {
+    margin-top: 80px;  /* Adjust this value based on your navbar height */
+    padding: 20px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .navbar {
+        height: auto; /* Allow height to adjust on mobile */
+        padding: 15px;
+        flex-direction: column;
+    }
+
+    .nav-brand {
+        margin-bottom: 15px;
+    }
+
+    .nav-links {
+        width: 100%;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+
+    .nav-links a {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
 } 

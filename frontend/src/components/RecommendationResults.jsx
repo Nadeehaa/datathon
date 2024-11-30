@@ -1,7 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../components/styles/main.css';
 
 const RecommendationResults = ({ data }) => {
+    const navigate = useNavigate();
     console.log("Rendering RecommendationResults with data:", data);
 
     if (!data || !data.recommendations) {
@@ -9,6 +11,10 @@ const RecommendationResults = ({ data }) => {
     }
 
     const { recommendations, herbal_details } = data;
+
+    const handleReadMore = (herb) => {
+        navigate(`/blog/${herb.toLowerCase()}`);
+    };
 
     return (
         <div className="recommendations-container">
@@ -18,46 +24,39 @@ const RecommendationResults = ({ data }) => {
                 const herbDetail = herbal_details[herb] || {};
                 return (
                     <div key={index} className="herb-card">
-                        <h3>{herb}</h3>
+                        <div className="herb-header">
+                            <div className="herb-title">
+                                <h3>{herb}</h3>
+                                <p className="herb-names">
+                                    <span className="hindi">{herbDetail.names?.hindi || ''}</span>
+                                    <span className="telugu">{herbDetail.names?.telugu || ''}</span>
+                                </p>
+                            </div>
+                            <img 
+                                src={herbDetail.image || `/herbs/${herb.toLowerCase()}.jpg`} 
+                                alt={herb}
+                                className="herb-image"
+                            />
+                        </div>
+
                         <div className="herb-content">
-                            <p><strong>Description:</strong> {herbDetail.description}</p>
+                            <p className="herb-brief">{herbDetail.brief || herbDetail.description}</p>
                             
-                            <div className="benefits">
-                                <strong>Benefits:</strong>
+                            <div className="benefits-preview">
+                                <strong>Key Benefits:</strong>
                                 <ul>
-                                    {herbDetail.benefits && herbDetail.benefits.map((benefit, idx) => (
+                                    {(herbDetail.benefits || []).slice(0, 3).map((benefit, idx) => (
                                         <li key={idx}>{benefit}</li>
                                     ))}
                                 </ul>
                             </div>
 
-                            {herbDetail.preparations && Object.entries(herbDetail.preparations).map(([method, prep]) => (
-                                <div key={method} className="preparation-section">
-                                    <h4>{method.charAt(0).toUpperCase() + method.slice(1)} Recipe</h4>
-                                    
-                                    <div className="ingredients">
-                                        <strong>Ingredients:</strong>
-                                        <ul>
-                                            {prep.ingredients && prep.ingredients.map((ingredient, idx) => (
-                                                <li key={idx}>{ingredient}</li>
-                                            ))}
-                                        </ul>
-                                    </div>
-
-                                    <div className="instructions">
-                                        <strong>Instructions:</strong>
-                                        <ol>
-                                            {prep.instructions && prep.instructions.map((step, idx) => (
-                                                <li key={idx}>{step}</li>
-                                            ))}
-                                        </ol>
-                                    </div>
-
-                                    <div className="dosage">
-                                        <strong>Recommended Dosage:</strong> {prep.dosage}
-                                    </div>
-                                </div>
-                            ))}
+                            <button 
+                                className="read-more-btn"
+                                onClick={() => handleReadMore(herb)}
+                            >
+                                Read More
+                            </button>
                         </div>
                     </div>
                 );
