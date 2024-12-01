@@ -1,42 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import SymptomChecker from './SymptomChecker';
 import RecommendationResults from './RecommendationResults';
+import './styles/home.css';
+import './styles/main.css';
 
 const Home = () => {
-    const [recommendations, setRecommendations] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
-
-    const handleSymptomSubmit = async (symptoms) => {
-        console.log("Submitting symptoms:", symptoms);
-        setIsLoading(true);
-        setError(null);
-        
-        try {
-            const response = await axios.post('http://localhost:5001/api/analyze-symptoms', {
-                symptoms: symptoms
-            });
-            console.log("Received response:", response.data);
-            setRecommendations(response.data);
-        } catch (error) {
-            console.error('Error getting recommendations:', error);
-            setError('Failed to get recommendations. Please try again.');
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    // ... all your existing state and functions ...
 
     return (
-        <div className="home-container">
-            <h1>Herbal Medicine Recommendation System</h1>
-            <div className="main-content">
-                <SymptomChecker onSubmit={handleSymptomSubmit} />
-                {isLoading && <div className="loader">Processing...</div>}
-                {error && <div className="error-message">{error}</div>}
-                {recommendations && <RecommendationResults data={recommendations} />}
+        <section className="hero-section">
+            <div className="hero-content">
+                <h1 className="hero-title">
+                    Discover the Ancient Wisdom of Ayurveda
+                </h1>
+                <p className="hero-subtitle">
+                    Empowering Health Enthusiasts & Farmers with Natural Healing Solutions
+                </p>
+                <button className="get-started-btn" onClick={scrollToSystem}>
+                    Get Started
+                </button>
             </div>
-        </div>
+            <div id="recommendation-system" className="system-section">
+                <div className="recommendation-content">
+                    <SymptomChecker onSubmit={handleSymptomSubmit} />
+                    {isLoading && (
+                        <div className="loader">
+                            <div className="loader-spinner"></div>
+                            <p>Analyzing your symptoms...</p>
+                        </div>
+                    )}
+                    {error && <div className="error-message">{error}</div>}
+                    {recommendations && <RecommendationResults data={recommendations} />}
+                </div>
+            </div>
+        </section>
     );
 };
 

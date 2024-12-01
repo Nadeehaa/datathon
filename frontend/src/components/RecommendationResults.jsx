@@ -1,10 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../components/styles/main.css';
+import './styles/main.css';
 
 const RecommendationResults = ({ data }) => {
     const navigate = useNavigate();
-    console.log("Rendering RecommendationResults with data:", data);
 
     if (!data || !data.recommendations) {
         return <div>No recommendations available</div>;
@@ -36,19 +35,51 @@ const RecommendationResults = ({ data }) => {
                                 src={herbDetail.image || `/herbs/${herb.toLowerCase()}.jpg`} 
                                 alt={herb}
                                 className="herb-image"
+                                onError={(e) => {
+                                    e.target.src = '/herbs/default-herb.jpg';
+                                }}
                             />
                         </div>
 
                         <div className="herb-content">
-                            <p className="herb-brief">{herbDetail.brief || herbDetail.description}</p>
-                            
-                            <div className="benefits-preview">
-                                <strong>Key Benefits:</strong>
+                            <div className="herb-description">
+                                <h4>Description</h4>
+                                <p>{herbDetail.description}</p>
+                            </div>
+
+                            <div className="herb-preparation">
+                                <h4>Traditional Preparation</h4>
+                                <p>{herbDetail.preparation}</p>
+                            </div>
+
+                            <div className="herb-usage">
+                                <h4>Common Uses</h4>
                                 <ul>
-                                    {(herbDetail.benefits || []).slice(0, 3).map((benefit, idx) => (
-                                        <li key={idx}>{benefit}</li>
+                                    {herbDetail.uses?.map((use, idx) => (
+                                        <li key={idx}>{use}</li>
                                     ))}
                                 </ul>
+                            </div>
+
+                            <div className="herb-dosage">
+                                <h4>Recommended Dosage</h4>
+                                <p>{herbDetail.dosage}</p>
+                            </div>
+
+                            <div className="herb-precautions">
+                                <h4>Precautions</h4>
+                                <p className="precaution-note">{herbDetail.precautions}</p>
+                            </div>
+
+                            <div className="confidence-score">
+                                <h4>Match Score</h4>
+                                <div className="score-bar">
+                                    <div 
+                                        className="score-fill"
+                                        style={{width: `${recommendations.confidence[index]}%`}}
+                                    ></div>
+                                </div>
+                                <span>{recommendations.confidence[index]}% match</span>
                             </div>
 
                             <button 
