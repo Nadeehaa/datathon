@@ -7,6 +7,7 @@ import Farmers from './components/Farmers';
 import Blog from './components/Blog';
 import HerbDetail from './components/HerbDetail';
 import Health from './components/Health';
+import TestConnection from './components/TestConnection';
 import './components/styles/main.css';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
                     <Route path="/blog" element={<Blog />} />
                     <Route path="/blog/:id" element={<HerbDetail />} />
                     <Route path="/health" element={<Health />} />
+                    <Route path="/test-connection" element={<TestConnection />} />
                 </Routes>
             </div>
         </Router>

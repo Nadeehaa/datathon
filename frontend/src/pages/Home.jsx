@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import SymptomChecker from '../components/SymptomChecker';
 import '../components/styles/home.css';
+import api from '../services/api';
 
 const Home = () => {
     const [showSymptomChecker, setShowSymptomChecker] = useState(false);
+    const [data, setData] = useState(null);
 
     useEffect(() => {
         const createLeaf = () => {

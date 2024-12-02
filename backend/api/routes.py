@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from ..model.recommender import HerbRecommender
 from ..model.validator import SymptomValidator
 from ..scraper.herb_scraper import HerbScraper
+from datetime import datetime
 
 api_bp = Blueprint('api', __name__)
 
@@ -10,12 +11,38 @@ recommender = HerbRecommender()
 symptom_validator = SymptomValidator(recommender)
 herb_scraper = HerbScraper()
 
-@api_bp.route('/get_recommendation', methods=['POST'])
-def get_recommendation():
+def get_current_season():
+    """
+    Determine the current season based on the month.
+    Returns: str - Current season (Spring, Summer, Monsoon, Autumn, Winter)
+    """
+    month = datetime.now().month
+    
+    if month in [3, 4, 5]:
+        return "Spring"
+    elif month in [6, 7]:
+        return "Summer"
+    elif month in [8, 9]:
+        return "Monsoon"
+    elif month in [10, 11]:
+        return "Autumn"
+    else:  # month in [12, 1, 2]
+        return "Winter"
+
+@api_bp.route('/recommendations', methods=['POST'])
+def get_recommendations():
     try:
-        # Parse request data
         data = request.get_json()
         symptoms = data.get('symptoms', [])
+        
+        # Get additional user data
+        user_data = {
+            'age_group': data.get('age_group', 'adult'),
+            'gender': data.get('gender'),
+            'medications': data.get('medications', []),
+            'severity': data.get('severity', 'mild'),
+            'season': data.get('season', get_current_season())
+        }
         
         # Validate symptoms
         validation_result = symptom_validator.validate_symptoms(symptoms)
@@ -26,34 +53,19 @@ def get_recommendation():
                 'invalid_symptoms': validation_result["invalid_symptoms"]
             }), 400
         
-        # Predict recommendations
-        recommendations = recommender.predict(validation_result["valid_symptoms"])
-        
-        # Get details for each herb
-        detailed_recommendations = []
-        for herb in recommendations:
-            try:
-                herb_info = herb_scraper.get_herb_details(herb)
-                detailed_recommendations.append({
-                    'herb': herb,
-                    'details': herb_info
-                })
-            except Exception as scraper_error:
-                # Log error and proceed with partial data
-                detailed_recommendations.append({
-                    'herb': herb,
-                    'details': f"Error fetching details: {str(scraper_error)}"
-                })
+        # Get personalized recommendations
+        recommendations = recommender.predict(
+            validation_result["valid_symptoms"],
+            user_data=user_data
+        )
         
         return jsonify({
             'success': True,
-            'recommendations': detailed_recommendations
+            'recommendations': recommendations
         })
-    
+        
     except Exception as e:
-        # Log unexpected errors
         return jsonify({
             'success': False,
-            'error': 'Internal server error',
-            'details': str(e)
+            'error': str(e)
         }), 500

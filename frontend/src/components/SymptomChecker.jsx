@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import RecommendationResults from './RecommendationResults';
-import axios from 'axios';
+import api from '../api/axios';
 import './styles/main.css';
 
 const SymptomChecker = () => {
@@ -11,51 +11,21 @@ const SymptomChecker = () => {
 
     const symptomCategories = {
         "Digestive Health": [
-            "Acid Reflux",
             "Bloating",
             "Gas",
             "Constipation",
-            "Diarrhea",
             "Indigestion",
             "Nausea",
-            "Stomach Pain",
             "Poor Digestion",
             "Loss of Appetite"
         ],
         "Immune Support": [
             "Weak Immunity",
-            "Frequent Infections",
+            "Frequent Cold",
             "Mild Fever",
-            "Fatigue",
             "Low Energy",
             "Seasonal Illness",
             "Recovery Support"
-        ],
-        "Men's Health": [
-            "Prostate Health",
-            "Male Vitality",
-            "Male Fertility",
-            "Male Hormonal Balance",
-            "Stamina Issues",
-            "Reproductive Health"
-        ],
-        "Metabolic Health": [
-            "Blood Sugar Balance",
-            "Weight Management",
-            "Metabolism Issues",
-            "Thyroid Support",
-            "Cholesterol Balance",
-            "Liver Support"
-        ],
-        "Pain Management": [
-            "Headache",
-            "Muscle Pain",
-            "Joint Pain",
-            "Back Pain",
-            "Menstrual Cramps",
-            "Arthritis Discomfort",
-            "Body Aches",
-            "Neck Tension"
         ],
         "Respiratory Health": [
             "Common Cold",
@@ -63,48 +33,159 @@ const SymptomChecker = () => {
             "Wet Cough",
             "Sore Throat",
             "Nasal Congestion",
-            "Sinus Issues",
-            "Seasonal Allergies",
-            "Bronchial Congestion"
-        ],
-        "Skin Care": [
-            "Acne",
-            "Dry Skin",
-            "Eczema",
-            "Skin Rashes",
-            "Minor Cuts",
-            "Skin Allergies",
-            "Itching",
-            "Minor Burns"
+            "Seasonal Allergies"
         ],
         "Stress & Sleep": [
             "Mild Anxiety",
             "Stress",
             "Insomnia",
-            "Restlessness",
             "Sleep Issues",
             "Mental Fatigue",
-            "Mood Swings",
             "Nervous Tension"
         ],
-        "Teen Health": [
-            "Teenage Acne",
-            "Growing Pains",
-            "Study Stress",
-            "Concentration Issues",
-            "Puberty Support",
-            "Mood Management",
-            "Teenage Sleep Issues"
+        "Joint & Muscle": [
+            "Joint Pain",
+            "Muscle Pain",
+            "Inflammation",
+            "Stiffness",
+            "Body Aches"
+        ],
+        "Skin Care": [
+            "Acne",
+            "Minor Rashes",
+            "Dry Skin",
+            "Itching",
+            "Minor Cuts",
+            "Skin Allergies"
         ],
         "Women's Health": [
-            "Menstrual Irregularities",
+            "Menstrual Cramps",
             "PMS Symptoms",
-            "Menopause Symptoms",
-            "Hormonal Imbalance",
-            "Vaginal Infections",
-            "Breast Tenderness",
-            "Fertility Support"
+            "Mild Menopause Symptoms",
+            "White Discharge"
+        ],
+        "Hair & Scalp": [
+            "Hair Loss",
+            "Dandruff",
+            "Scalp Itching",
+            "Premature Graying"
+        ],
+        "Oral Health": [
+            "Mouth Ulcers",
+            "Gum Problems",
+            "Bad Breath",
+            "Throat Irritation"
+        ],
+        "Liver Support": [
+            "Poor Digestion",
+            "Detoxification",
+            "Mild Liver Issues"
         ]
+    };
+
+    const remedyMappings = {
+        "Digestive Health": {
+            "Triphala": {
+                symptoms: ["Constipation", "Indigestion", "Poor Digestion"],
+                ingredients: "Amalaki, Bibhitaki, Haritaki",
+                instructions: "Take with warm water before bed",
+                recipe: "1/2 teaspoon powder with warm water",
+                dosage: "Once daily before bed",
+                effectiveness: 4.5
+            },
+            "Ginger": {
+                symptoms: ["Nausea", "Indigestion", "Gas", "Bloating"],
+                ingredients: "Fresh ginger root",
+                instructions: "Steep in hot water for 10 minutes",
+                recipe: "1-inch ginger piece in 1 cup water",
+                dosage: "2-3 times daily after meals",
+                effectiveness: 4.3
+            },
+            "Hingvastak": {
+                symptoms: ["Poor Digestion", "Gas", "Bloating", "Loss of Appetite"],
+                ingredients: "Asafoetida, Ginger, Black pepper, Long pepper, Cumin",
+                instructions: "Take with warm water before meals",
+                recipe: "1/4 tsp powder with warm water",
+                dosage: "Before meals",
+                effectiveness: 4.4
+            }
+        },
+        "Respiratory Health": {
+            "Sitopaladi": {
+                symptoms: ["Dry Cough", "Common Cold", "Sore Throat"],
+                ingredients: "Mishri, Pippali, Cinnamon, Cardamom",
+                instructions: "Take with honey",
+                recipe: "1/4 tsp powder with honey",
+                dosage: "Thrice daily",
+                effectiveness: 4.4
+            },
+            "Tulsi": {
+                symptoms: ["Common Cold", "Cough", "Nasal Congestion"],
+                ingredients: "Tulsi leaves",
+                instructions: "Make tea or take with honey",
+                recipe: "2-3 leaves in hot water or with honey",
+                dosage: "2-3 times daily",
+                effectiveness: 4.3
+            }
+        },
+        "Stress & Sleep": {
+            "Ashwagandha": {
+                symptoms: ["Stress", "Anxiety", "Sleep Issues", "Mental Fatigue"],
+                ingredients: "Ashwagandha root powder",
+                instructions: "Mix with warm milk and honey",
+                recipe: "1/2 tsp powder with milk",
+                dosage: "Twice daily",
+                effectiveness: 4.7
+            },
+            "Brahmi": {
+                symptoms: ["Mental Fatigue", "Stress", "Nervous Tension"],
+                ingredients: "Brahmi powder",
+                instructions: "Take with warm water or honey",
+                recipe: "1/2 tsp powder with water/honey",
+                dosage: "Twice daily",
+                effectiveness: 4.5
+            }
+        },
+        "Joint & Muscle": {
+            "Turmeric": {
+                symptoms: ["Joint Pain", "Inflammation", "Body Aches"],
+                ingredients: "Turmeric powder, Black pepper",
+                instructions: "Mix with warm milk",
+                recipe: "1 tsp turmeric, pinch of black pepper in milk",
+                dosage: "Twice daily",
+                effectiveness: 4.6
+            },
+            "Guggulu": {
+                symptoms: ["Joint Pain", "Inflammation", "Stiffness"],
+                ingredients: "Purified Guggulu",
+                instructions: "Take with warm water",
+                recipe: "2 tablets",
+                dosage: "Twice daily",
+                effectiveness: 4.5
+            }
+        }
+    };
+
+    const findRemediesForSymptoms = (selectedSymptoms) => {
+        const matchingRemedies = [];
+        
+        Object.entries(remedyMappings).forEach(([category, remedies]) => {
+            Object.entries(remedies).forEach(([remedyName, remedyInfo]) => {
+                const hasMatchingSymptoms = selectedSymptoms.some(symptom =>
+                    remedyInfo.symptoms.includes(symptom)
+                );
+                
+                if (hasMatchingSymptoms) {
+                    matchingRemedies.push({
+                        name: remedyName,
+                        category: category,
+                        ...remedyInfo
+                    });
+                }
+            });
+        });
+        
+        return matchingRemedies.sort((a, b) => b.effectiveness - a.effectiveness);
     };
 
     const handleSymptomToggle = (symptom) => {
@@ -127,78 +208,21 @@ const SymptomChecker = () => {
         setError(null);
         
         try {
-            // Temporary mock data for testing
-            const mockResponse = {
-                recommendations: {
-                    herbs: ["Ashwagandha", "Turmeric", "Tulsi"],
-                    confidence: [95, 85, 75]
-                },
-                herbal_details: {
-                    "Ashwagandha": {
-                        names: {
-                            hindi: "अश्वगंधा",
-                            telugu: "అశ్వగంధ"
-                        },
-                        description: "Ashwagandha is an ancient medicinal herb. It's classified as an adaptogen, meaning that it can help your body manage stress.",
-                        preparation: "Can be taken as powder mixed with warm milk and honey",
-                        uses: [
-                            "Reduces stress and anxiety",
-                            "Improves strength and stamina",
-                            "Enhances concentration"
-                        ],
-                        dosage: "300-500mg twice daily",
-                        precautions: "Consult physician if pregnant or breastfeeding",
-                        image: "/herbs/ashwagandha.jpg"
-                    },
-                    "Turmeric": {
-                        names: {
-                            hindi: "हल्दी",
-                            telugu: "పసుపు"
-                        },
-                        description: "Turmeric is a spice that contains curcumin, a substance with powerful anti-inflammatory properties.",
-                        preparation: "Can be consumed with warm milk or added to food",
-                        uses: [
-                            "Reduces inflammation",
-                            "Improves joint health",
-                            "Boosts immunity"
-                        ],
-                        dosage: "500-2000mg per day",
-                        precautions: "May interact with blood thinners",
-                        image: "/herbs/turmeric.jpg"
-                    },
-                    "Tulsi": {
-                        names: {
-                            hindi: "तुलसी",
-                            telugu: "తులసి"
-                        },
-                        description: "Holy Basil (Tulsi) is a sacred plant in Ayurvedic medicine known for its healing properties.",
-                        preparation: "Can be consumed as tea or chewed fresh",
-                        uses: [
-                            "Reduces stress",
-                            "Improves respiratory health",
-                            "Boosts immunity"
-                        ],
-                        dosage: "2-3 cups of tea daily",
-                        precautions: "May affect fertility, avoid during pregnancy",
-                        image: "/herbs/tulsi.jpg"
-                    }
-                }
-            };
-
-            // Use this mock data instead of API call for now
-            setRecommendations(mockResponse);
-            
-            // When API is ready, uncomment this:
-            /*
-            const response = await axios.post('http://localhost:5001/api/analyze-symptoms', {
+            console.log('Sending symptoms to backend:', selectedSymptoms);
+            const response = await api.post('/recommendations', {
                 symptoms: selectedSymptoms
             });
+            
+            console.log('Backend response:', response.data);
             setRecommendations(response.data);
-            */
             
         } catch (err) {
-            setError('Failed to get recommendations. Please try again.');
-            console.error('Error:', err);
+            console.error('Detailed error:', {
+                message: err.message,
+                response: err.response?.data,
+                status: err.response?.status
+            });
+            setError(`Failed to get recommendations: ${err.message}`);
         } finally {
             setIsLoading(false);
         }
@@ -261,7 +285,23 @@ const SymptomChecker = () => {
                 </div>
             )}
 
-            {recommendations && <RecommendationResults data={recommendations} />}
+            {recommendations && (
+                <div className="recommendations-section">
+                    <h3>Recommended Remedies:</h3>
+                    {recommendations.map((remedy, index) => (
+                        <div key={index} className="remedy-card">
+                            <h4>Remedy {index + 1}</h4>
+                            <div className="remedy-details">
+                                <p><strong>Herbs:</strong> {remedy.herbs.join(', ')}</p>
+                                <p><strong>Ingredients:</strong> {remedy.ingredients}</p>
+                                <p><strong>Instructions:</strong> {remedy.instructions}</p>
+                                <p><strong>Recipe:</strong> {remedy.recipe}</p>
+                                <p><strong>Dosage:</strong> {remedy.dosage}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
