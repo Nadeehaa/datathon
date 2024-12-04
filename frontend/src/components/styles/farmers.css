@@ -1,56 +1,68 @@
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background-image: url('/path-to-your-image.jpg'); /* Replace with your image path */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    filter: blur(2px); /* Optional: adds slight blur to make content more readable */
-}
-
+/* Reset body styles without justify-content */
 body, html {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     box-sizing: border-box;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.farmer-background {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* Add a blur overlay */
+.farmer-background::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit;
+    background-attachment: fixed;
+    filter: blur(8px);
+    z-index: -1;
 }
 
 .farmers-container {
-    width: 100%;
-    margin: 0;
-    padding: 2rem 2rem;
-    background-color: rgba(248, 249, 250, 0.9);
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    padding-top: 80px;
-    animation: fadeIn 0.5s ease-in;
+    position: relative;
+    min-height: 100vh;
+    width: 90%;
+    max-width: 1400px;
+    margin: 80px auto 0;
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-out;
+    z-index: 1;
 }
 
 .language-selector {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     gap: 10px;
     margin-bottom: 2rem;
     margin-top: 1rem;
-    padding-right: 20px;
-    position: relative;
+    padding-left: 0;
 }
 
 .select-label {
-    position: absolute;
-    left: 90%;
-    transform: translateX(-100%);
-    color: #333;
-    font-size: 20px;
+    font-size: 1.2rem;
     font-weight: bold;
-    margin-right: 10px;
+    color: #2c3e50;
+    margin: 0;
 }
 
 .language-selector select {
@@ -77,6 +89,7 @@ h1 {
 
 .form-group {
     margin-bottom: 1.5rem;
+    width: 100%;
 }
 
 .form-group label {
@@ -143,9 +156,10 @@ button[type="submit"]:disabled {
 .results-container {
     margin-top: 3rem;
     padding: 2rem;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.95);
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    width: 100%;
 }
 
 .chart-container {
@@ -208,8 +222,9 @@ button[type="submit"]:disabled {
 
 @media (max-width: 768px) {
     .farmers-container {
+        width: 95%;
         padding: 1rem;
-        margin: 1rem;
+        margin: 1rem auto;
     }
 
     h1 {
@@ -254,7 +269,7 @@ button[type="submit"]:not(:disabled):hover {
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(30px);
     }
     to {
         opacity: 1;
