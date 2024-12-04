@@ -2,12 +2,14 @@
     padding: 20px;
     max-width: 1400px;
     margin: 0 auto;
+    padding-top: 80px;
 }
 
 .page-title {
     text-align: center;
     color: #2c3e50;
     margin-bottom: 30px;
+    margin-top: 40px;
 }
 
 .benefits-grid {
@@ -18,7 +20,7 @@
 }
 
 .benefit-card {
-    background: #f5f0eb;
+    background: #EFFFE8;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);

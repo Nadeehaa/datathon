@@ -11,61 +11,42 @@ recommender = HerbRecommender()
 symptom_validator = SymptomValidator(recommender)
 herb_scraper = HerbScraper()
 
-def get_current_season():
-    """
-    Determine the current season based on the month.
-    Returns: str - Current season (Spring, Summer, Monsoon, Autumn, Winter)
-    """
-    month = datetime.now().month
-    
-    if month in [3, 4, 5]:
-        return "Spring"
-    elif month in [6, 7]:
-        return "Summer"
-    elif month in [8, 9]:
-        return "Monsoon"
-    elif month in [10, 11]:
-        return "Autumn"
-    else:  # month in [12, 1, 2]
-        return "Winter"
-
 @api_bp.route('/recommendations', methods=['POST'])
 def get_recommendations():
     try:
         data = request.get_json()
         symptoms = data.get('symptoms', [])
         
-        # Get additional user data
-        user_data = {
-            'age_group': data.get('age_group', 'adult'),
-            'gender': data.get('gender'),
-            'medications': data.get('medications', []),
-            'severity': data.get('severity', 'mild'),
-            'season': data.get('season', get_current_season())
-        }
+        print("\n=== API Request ===")
+        print("Received symptoms:", symptoms)
         
-        # Validate symptoms
-        validation_result = symptom_validator.validate_symptoms(symptoms)
-        if not validation_result["valid"]:
-            return jsonify({
-                'success': False,
-                'error': 'Invalid symptoms',
-                'invalid_symptoms': validation_result["invalid_symptoms"]
-            }), 400
+        # Verify recommender is properly initialized
+        print("\n=== Recommender Status ===")
+        print("Has remedy_mappings:", hasattr(recommender, 'remedy_mappings'))
+        if hasattr(recommender, 'remedy_mappings'):
+            print("Number of categories:", len(recommender.remedy_mappings))
+            print("Available categories:", list(recommender.remedy_mappings.keys()))
         
-        # Get personalized recommendations
-        recommendations = recommender.predict(
-            validation_result["valid_symptoms"],
-            user_data=user_data
-        )
+        # Get recommendations
+        recommendations = recommender.predict_remedies(symptoms)
         
-        return jsonify({
-            'success': True,
-            'recommendations': recommendations
-        })
+        print("\n=== API Response ===")
+        print("Sending recommendations:", recommendations)
+        
+        if not recommendations:
+            # Return a default response if no recommendations found
+            return jsonify([{
+                "herbs": ["No specific recommendation found"],
+                "ingredients": "Please consult with an Ayurvedic practitioner",
+                "instructions": "N/A",
+                "recipe": "N/A",
+                "dosage": "N/A"
+            }])
+        
+        return jsonify(recommendations)
         
     except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
+        print("Error in get_recommendations:", str(e))
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500

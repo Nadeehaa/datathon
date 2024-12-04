@@ -1,5 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { 
+    BrowserRouter as Router, 
+    Route, 
+    Routes, 
+    createRoutesFromElements 
+} from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import Benefits from './components/Benefits';
@@ -12,7 +17,7 @@ import './components/styles/main.css';
 
 function App() {
     return (
-        <Router>
+        <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <div className="app">
                 <NavBar />
                 <Routes>

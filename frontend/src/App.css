@@ -40,3 +40,8 @@
 .read-the-docs {
   color: #888;
 }
+
+.farmers-container {
+    background-color: red !important;
+    padding: 20px !important;
+}
