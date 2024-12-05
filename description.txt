@@ -1,0 +1,84 @@
+Frontend:
+React.js
+Core frontend framework
+Functional components
+React Hooks (useState)
+Chart.js & React-chartjs-2
+For creating interactive pie charts
+Data visualization
+CSS
+Custom styling
+Responsive design
+Flexbox and Grid layouts
+Features:
+Multilingual Support
+English
+Hindi
+Telugu
+Form Components
+Dropdown selectors
+Submit button
+Dynamic form handling
+Data Visualization
+Pie charts for crop suitability
+Interactive tooltips
+Responsive charts
+Responsive Design
+Mobile-friendly layout
+Adaptive styling
+Flexible containers
+State Management
+React useState for local state
+Form data handling
+Language selection
+Data Structure
+Nested objects for crop database
+Organized by soil type, climate, and water availability
+Detailed crop information including:
+Suitability ratings
+Growing tips
+Benefits
+Market trends
+Current prices
+
+Here's a breakdown of the key technologies and libraries we're using in this project:
+Core Technologies:
+Machine Learning:
+Web Scraping:
+Testing:
+Project Structure:
+6. Key Features:
+Random Forest for multi-label classification
+Web scraping for herb information enrichment
+Category-based recommendation system
+User constraint handling
+Confidence scoring
+Cross-validation
+Feature importance analysis
+
+Frontend:
+React (JavaScript Framework)
+Axios (HTTP client)
+CSS for styling
+React Router for navigation
+Backend:
+Flask (Python web framework)
+NumPy (Numerical computations)
+Pandas (Data manipulation)
+Scikit-learn (Machine Learning)
+RandomForestClassifier for crop prediction
+5. Flask-CORS (Cross-Origin Resource Sharing)
+Joblib (Model serialization)
+Data Visualization (to be implemented):
+Chart.js or D3.js for:
+Pie charts for top crops
+Bar graphs for crop yield
+Line graphs for profit trends
+Weather visualization
+Features:
+Multi-language support (English, Hindi, Telugu)
+Crop recommendation system
+Market trend analysis
+Weather data integration
+Yield prediction
+Profit analysis

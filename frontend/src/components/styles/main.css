@@ -1,0 +1,95 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+/* Main Layout */
+.home-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('/hero-bg.jpg') center/cover no-repeat;
+    background-color: #1a5f7a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    right: 0;
+}
+/* Add to your existing main.css */
+.footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    padding: 20px 0;
+    margin-top: auto;
+    border-top: 1px solid rgba(210, 180, 140, 0.3);
+    z-index: 2;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 0 20px;
+}
+
+.footer-text {
+    color: #D2B48C;
+    text-align: center;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.linkedin-links {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.linkedin-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #D2B48C;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.linkedin-link:hover {
+    background: rgba(210, 180, 140, 0.1);
+    transform: translateY(-2px);
+}
+
+.linkedin-link i {
+    font-size: 20px;
+}
+
+.linkedin-link span {
+    font-size: 0.9rem;
+}
