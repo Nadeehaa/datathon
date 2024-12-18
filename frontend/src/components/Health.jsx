@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './styles/health.css';
 
 const Health = () => {
     const [location, setLocation] = useState('');
     const [specialty, setSpecialty] = useState('');
-    const [searchResults, setPractitioners] = useState([]);
+    const [areas, setAreas] = useState([]); // Store areas
+    const [selectedArea, setSelectedArea] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -21,41 +23,78 @@ const Health = () => {
         { id: 'dentist', name: 'Dentist' }
     ];
 
+    // Fetch areas when the location is updated
+    const fetchAreas = async (location) => {
+        if (!location) return;
+
+        setLoading(true);
+        try {
+            const response = await axios.get('https://nominatim.openstreetmap.org/search', {
+                params: {
+                    q: location,
+                    format: 'json',
+                    addressdetails: 1,
+                    limit: 10,
+                },
+            });
+
+            // Extract areas (e.g., neighborhoods or regions)
+            const fetchedAreas = response.data
+                .filter(place => place.address && place.address.city) // Filter by valid city
+                .map(place => place.address.suburb || place.address.neighbourhood || place.address.city);
+
+            setAreas(fetchedAreas);
+            setSelectedArea(fetchedAreas[0] || ''); // Select the first area if available
+        } catch (err) {
+            console.error('Error fetching areas:', err);
+            setError('Failed to fetch areas. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Call fetchAreas when location changes
+    useEffect(() => {
+        fetchAreas(location);
+    }, [location]);
+
+    // Handle search for medical services
     const handleSearch = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
 
         try {
-            // Construct a more specific medical search query
-            const searchQuery = specialty 
-                ? `${specialty} doctor hospital clinic in ${location}`
-                : `medical hospital clinic in ${location}`;
+            const searchQuery = `${specialty || ''} ${selectedArea || location}`.trim();
 
-            const response = await axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json', {
+            const response = await axios.get('https://nominatim.openstreetmap.org/search', {
                 params: {
-                    query: searchQuery,
-                    type: 'health', // Restricts to health-related places
-                    key: process.env.REACT_APP_GOOGLE_PLACES_API_KEY
+                    q: searchQuery,
+                    format: 'json',
+                    addressdetails: 1,
+                    limit: 50
                 }
             });
 
-            const results = response.data.results.map(place => ({
+            if (response.data.length === 0) {
+                setError(
+                    `No results found for "${specialty}" in "${selectedArea || location}". Try a broader search or check for typos.`
+                );
+                setSearchResults([]);
+                return;
+            }
+
+            const results = response.data.map((place) => ({
                 id: place.place_id,
-                name: place.name,
-                type: place.types.includes('hospital') ? 'Hospital' : 'Clinic',
-                location: place.formatted_address,
-                rating: place.rating || 'N/A',
-                totalRatings: place.user_ratings_total || 0,
-                openNow: place.opening_hours?.open_now,
-                photoUrl: place.photos?.[0]?.photo_reference,
-                placeId: place.place_id
+                name: place.display_name,
+                type: place.type || 'Healthcare Facility',
+                location: `${place.lat}, ${place.lon}`,
             }));
 
-            setPractitioners(results);
+            setSearchResults(results);
         } catch (err) {
             console.error('Error fetching data:', err);
-            setError('Failed to fetch medical facilities. Please try again.');
+            setError('Failed to fetch medical facilities. Please try again later.');
         } finally {
             setLoading(false);
         }
@@ -73,7 +112,7 @@ const Health = () => {
                 <form onSubmit={handleSearch} className="search-form">
                     <div className="form-group">
                         <label>Location</label>
-                        <input 
+                        <input
                             type="text"
                             value={location}
                             onChange={(e) => setLocation(e.target.value)}
@@ -84,14 +123,34 @@ const Health = () => {
                     </div>
 
                     <div className="form-group">
+                        <label>Area</label>
+                        <select
+                            value={selectedArea}
+                            onChange={(e) => setSelectedArea(e.target.value)}
+                            className="search-select"
+                            disabled={!areas.length}
+                        >
+                            {areas.length > 0 ? (
+                                areas.map((area, index) => (
+                                    <option key={index} value={area}>
+                                        {area}
+                                    </option>
+                                ))
+                            ) : (
+                                <option value="">No areas found</option>
+                            )}
+                        </select>
+                    </div>
+
+                    <div className="form-group">
                         <label>Medical Specialty</label>
-                        <select 
+                        <select
                             value={specialty}
                             onChange={(e) => setSpecialty(e.target.value)}
                             className="search-select"
                         >
                             <option value="">All Medical Services</option>
-                            {specialties.map(spec => (
+                            {specialties.map((spec) => (
                                 <option key={spec.id} value={spec.id}>
                                     {spec.name}
                                 </option>
@@ -110,7 +169,7 @@ const Health = () => {
 
             {/* Results Grid */}
             <div className="practitioners-grid">
-                {searchResults.map(facility => (
+                {searchResults.map((facility) => (
                     <div key={facility.id} className="practitioner-card">
                         <div className="practitioner-header">
                             <h3>{facility.name}</h3>
@@ -119,11 +178,11 @@ const Health = () => {
                                 <span className="rating-count">({facility.totalRatings} reviews)</span>
                             </div>
                         </div>
-                        
+
                         <div className="practitioner-info">
                             <p><strong>Type:</strong> {facility.type}</p>
                             <p><strong>Location:</strong> {facility.location}</p>
-                            <p><strong>Status:</strong> 
+                            <p><strong>Status:</strong>
                                 <span className={facility.openNow ? 'open' : 'closed'}>
                                     {facility.openNow ? ' Open Now' : ' Closed'}
                                 </span>
@@ -132,7 +191,7 @@ const Health = () => {
 
                         <div className="practitioner-actions">
                             <button className="book-btn">Book Appointment</button>
-                            <button 
+                            <button
                                 className="directions-btn"
                                 onClick={() => window.open(`https://www.google.com/maps/place/?q=place_id:${facility.placeId}`, '_blank')}
                             >

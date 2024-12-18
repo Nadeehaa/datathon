@@ -1,9 +1,10 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
 
 export default defineConfig({
-  plugins: [react()],
-  css: {
-    postcss: './postcss.config.js',
+  build: {
+    outDir: 'dist', // This will output the build files into the 'dist' folder
   },
-})
+  define: {
+    'process.env': process.env, // Ensure that process.env is accessible in your code
+  }
+});

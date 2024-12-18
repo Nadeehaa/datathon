@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import SymptomChecker from '../components/SymptomChecker';
 import '../components/styles/home.css';
-import api from '../services/api';
+import axios from 'axios';
 
 const Home = () => {
     const [showSymptomChecker, setShowSymptomChecker] = useState(false);
-    const [data, setData] = useState(null);
+    const [recommendations, setRecommendations] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const createLeaf = () => {
@@ -23,7 +24,7 @@ const Home = () => {
                 heroSection.appendChild(leaf);
                 setTimeout(() => {
                     leaf.remove();
-                }, 5000);
+                }, 5173);
             }
         };
 
@@ -43,6 +44,23 @@ const Home = () => {
                 top: offsetPosition,
                 behavior: 'smooth'
             });
+        }
+    };
+
+    const handleSymptomSubmit = async (symptoms) => {
+        try {
+            const response = await axios.post('http://localhost:5173/api/recommendations', {
+                symptoms: symptoms
+            });
+            
+            if (response.data && response.data.recommendations) {
+                return response.data.recommendations;
+            }
+            return [];
+            
+        } catch (error) {
+            console.error('Error:', error);
+            return [];
         }
     };
 
@@ -66,7 +84,11 @@ const Home = () => {
                 <section id="remedies-section" className="remedies-section">
                     <div className="remedies-content">
                         {showSymptomChecker ? (
-                            <SymptomChecker />
+                            <SymptomChecker 
+                                onSubmit={handleSymptomSubmit}
+                                loading={loading}
+                                recommendations={recommendations}
+                            />
                         ) : (
                             <div className="placeholder-message">
                                 <h2>Click "Get Started" to begin your wellness journey</h2>

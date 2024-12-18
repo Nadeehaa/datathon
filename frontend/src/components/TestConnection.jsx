@@ -30,7 +30,7 @@ function TestConnection() {
                     <p>{error}</p>
                     <p>Make sure:</p>
                     <ul>
-                        <li>Backend is running on port 5000</li>
+                        <li>Backend is running on port 5173</li>
                         <li>CORS is properly configured</li>
                         <li>The /test endpoint exists in backend</li>
                     </ul>

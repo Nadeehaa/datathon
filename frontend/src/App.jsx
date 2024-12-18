@@ -14,17 +14,21 @@ import Health from './components/Health';
 import TestConnection from './components/TestConnection';
 import './components/styles/main.css';
 import axios from 'axios';
-import { api } from './services/api'; 
 
 function App() {
+    // State for farming section
     const [formData, setFormData] = useState({
         climate: 'tropical',
         soilType: 'loamy',
         waterAvailability: 'medium'
     });
     const [cropData, setCropData] = useState(null);
+    
+    // State for herb recommendations
+    const [herbData, setHerbData] = useState(null);
     const [loading, setLoading] = useState(false);
 
+    // Fetch crop data for farmers
     const fetchCropData = async () => {
         setLoading(true);
         try {
@@ -37,6 +41,19 @@ function App() {
         }
     };
 
+    // Fetch herb recommendations
+    const fetchHerbData = async (symptoms) => {
+        setLoading(true);
+        try {
+            const response = await axios.post('http://localhost:5173/api/recommendations', { symptoms });
+            setHerbData(response.data);
+        } catch (error) {
+            console.error('Error fetching herb data:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <div className="app">
@@ -44,14 +61,26 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/benefits" element={<Benefits />} />
-                    <Route path="/farmers" element={<Farmers fetchCropData={fetchCropData} />} />
+                    <Route path="/farmers" element={
+                        <Farmers 
+                            fetchCropData={fetchCropData} 
+                            formData={formData}
+                            setFormData={setFormData}
+                        />
+                    } />
                     <Route path="/blog" element={<Blog />} />
-                    <Route path="/blog/:id" element={<HerbDetail />} />
-                    <Route path="/health" element={<Health />} />
+                    <Route path="/blog/:id" element={<HerbDetail herbData={herbData} />} />
+                    <Route path="/health" element={
+                        <Health 
+                            onSubmitSymptoms={fetchHerbData}
+                            herbData={herbData}
+                            loading={loading}
+                        />
+                    } />
                     <Route path="/test-connection" element={<TestConnection />} />
                 </Routes>
 
-                {/* Display results after API call */}
+                {/* Display farming results */}
                 {loading ? (
                     <div>Loading...</div>
                 ) : (
@@ -65,7 +94,6 @@ function App() {
                                     </li>
                                 ))}
                             </ul>
-                            {/* Include pie chart, bar graph, weather details here */}
                         </div>
                     )
                 )}
@@ -73,7 +101,7 @@ function App() {
                 <footer className="footer">
                     <div className="footer-content">
                         <p className="footer-text">
-                            Made for a 24-hour datathon, the first ever in Telangana State, named 'DATANYX 24'
+                            Made for a 24-hour datathon, the first ever in Telangana State, named 'DATANYX 24' by team ByteSquad.
                         </p>
                         <div className="linkedin-links">
                             <a 

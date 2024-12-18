@@ -5,9 +5,21 @@ import SymptomChecker from './SymptomChecker';
 import RecommendationResults from './RecommendationResults';
 import './styles/home.css';
 import './styles/main.css';
+import api from '../api/config';
 
 const Home = () => {
     // ... all your existing state and functions ...
+
+    const handleSymptomSubmit = async (symptoms) => {
+        try {
+            const response = await api.post('/recommendations', { symptoms });
+            setRecommendations(response.data.recommendations);
+        } catch (error) {
+            console.error('Error fetching recommendations:', error);
+            // Show user-friendly error message
+            setError(error.message);
+        }
+    };
 
     return (
         <section className="hero-section">
