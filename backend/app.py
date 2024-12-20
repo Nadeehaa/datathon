@@ -1,9 +1,19 @@
 from flask import Flask, request, jsonify
-from ml_model import HerbalRecommendationSystem  # Import ML model class
+from ml_model import HerbalRecommendationSystem
 from flask_cors import CORS
+import os
 
 app = Flask(__name__)
-CORS(app)
+# Allow CORS from your frontend domain
+CORS(app, resources={
+    r"/*": {
+        "origins": [
+            "https://your-frontend-domain.vercel.app",
+            "http://localhost:3000"
+        ]
+    }
+})
+
 
 # Initialize the herbal recommendation system
 herbal_system = HerbalRecommendationSystem()
