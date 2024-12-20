@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './styles/navbar.css';
+import logo from '/public/logo.jpg'; 
 
 const NavBar = () => {
     const location = useLocation();
@@ -18,7 +19,10 @@ const NavBar = () => {
     return (
         <nav className="navbar">
             <div className="nav-brand">
-                <Link to="/" onClick={closeMenu}>EcoAyur</Link>
+                <Link to="/" onClick={closeMenu}>
+                    <img src={logo} alt="EcoAyur Logo" className="nav-logo" />
+                    EcoAyur
+                </Link>
             </div>
             
             <button 
@@ -33,35 +37,35 @@ const NavBar = () => {
 
             <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
                 <Link 
-                    to="/" 
+                    to="/"
                     className={currentPath === '/' ? 'active' : ''}
                     onClick={closeMenu}
                 >
                     Home
                 </Link>
                 <Link 
-                    to="/benefits" 
+                    to="/benefits"
                     className={currentPath === '/benefits' ? 'active' : ''}
                     onClick={closeMenu}
                 >
                     Benefits
                 </Link>
                 <Link 
-                    to="/farmers" 
+                    to="/farmers"
                     className={currentPath === '/farmers' ? 'active' : ''}
                     onClick={closeMenu}
                 >
                     Farmers
                 </Link>
                 <Link 
-                    to="/blog" 
+                    to="/blog"
                     className={currentPath.includes('/blog') ? 'active' : ''}
                     onClick={closeMenu}
                 >
                     Blog
                 </Link>
                 <Link 
-                    to="/health" 
+                    to="/health"
                     className={currentPath === '/health' ? 'active' : ''}
                     onClick={closeMenu}
                 >
@@ -72,4 +76,4 @@ const NavBar = () => {
     );
 };
 
-export default NavBar; 
+export default NavBar;

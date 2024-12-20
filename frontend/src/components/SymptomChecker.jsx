@@ -28,21 +28,40 @@ const SymptomChecker = () => {
         setLoading(true);
         setError(null);
 
-        console.log('Submitting symptoms:', selectedSymptoms); // Debugging line
-
         try {
             const response = await axios.post('http://localhost:5000/recommend', {
                 symptoms: selectedSymptoms
             });
 
-            console.log('Received response:', response); // Debugging line
+            // Validate response data
+            if (!response.data || !Array.isArray(response.data)) {
+                throw new Error('Invalid response format from server');
+            }
+
+            // Set recommendations from response data
             setRecommendations(response.data);
         } catch (err) {
-            setError('Failed to fetch recommendations. Please try again.');
+            setError(err.response?.data?.message || 'Failed to fetch recommendations. Please try again.');
             console.error('Recommendation error:', err.response || err);
         } finally {
             setLoading(false);
         }
+    };
+
+    // Helper function to safely render arrays
+    const renderArray = (arr, separator = ', ') => {
+        if (!arr || !Array.isArray(arr)) return 'None';
+        return arr.length > 0 ? arr.join(separator) : 'None';
+    };
+
+    // Helper function to safely render text
+    const renderText = (text, defaultText = 'Not available') => {
+        return text || defaultText;
+    };
+
+    // Helper function to safely render number
+    const renderNumber = (num, defaultText = 'Not available') => {
+        return (num !== undefined && num !== null) ? num : defaultText;
     };
 
     return (
@@ -107,59 +126,59 @@ const SymptomChecker = () => {
                                 <div className="recommendation-header">
                                     <h3>Recommendation {index + 1}</h3>
                                     <span className="match-score">
-                                        {Math.round(rec.confidence * 100)}% Match
+                                        {renderNumber(Math.round(rec?.confidence * 100), 'N/A')}% Match
                                     </span>
                                 </div>
                                 <div className="recommendation-body">
                                     <div className="herbs-section">
                                         <h4>Recommended Herbs</h4>
                                         <ul className="herbs-list">
-                                            {rec.remedies.map((remedy, idx) => (
-                                                <li key={idx}>{remedy}</li>
-                                            ))}
+                                            {rec?.herbs?.map((remedy, idx) => (
+                                                <li key={idx}>{renderText(remedy)}</li>
+                                            )) || <li>No herbs available</li>}
                                         </ul>
                                     </div>
                                     <div className="details-section">
                                         <div className="detail-item">
                                             <h4>Original Symptoms</h4>
-                                            <p>{rec.symptoms.join(', ')}</p>
+                                            <p>{renderArray(rec?.symptoms)}</p>
                                         </div>
                                         <div className="detail-item">
                                             <h4>Ingredients</h4>
-                                            <p>{rec.ingredients}</p>
+                                            <p>{renderText(rec?.ingredients)}</p>
                                         </div>
                                         <div className="detail-item">
                                             <h4>Instructions</h4>
-                                            <p>{rec.instructions}</p>
+                                            <p>{renderText(rec?.instructions)}</p>
                                         </div>
                                         <div className="detail-item">
                                             <h4>Recipe</h4>
-                                            <p>{rec.recipe}</p>
+                                            <p>{renderText(rec?.recipe)}</p>
                                         </div>
                                         <div className="detail-item">
                                             <h4>Dosage</h4>
-                                            <p>{rec.dosage}</p>
+                                            <p>{renderText(rec?.dosage)}</p>
                                         </div>
                                         <div className="extra-details">
                                             <div className="detail-item">
                                                 <h4>Effectiveness Rating</h4>
-                                                <p>{rec.effectiveness_rating}/5</p>
+                                                <p>{renderNumber(rec?.effectiveness_rating)}/5</p>
                                             </div>
                                             <div className="detail-item">
                                                 <h4>Suitable Seasons</h4>
-                                                <p>{rec.season_suitable.join(', ')}</p>
+                                                <p>{renderArray(rec?.season_suitable)}</p>
                                             </div>
                                             <div className="detail-item">
                                                 <h4>Severity Level</h4>
-                                                <p>{rec.severity_level}</p>
+                                                <p>{renderText(rec?.severity_level)}</p>
                                             </div>
                                             <div className="detail-item">
                                                 <h4>Recommended For</h4>
-                                                <p>{rec.demographics.join(', ')}</p>
+                                                <p>{renderArray(rec?.demographics)}</p>
                                             </div>
                                             <div className="detail-item">
                                                 <h4>Contraindications</h4>
-                                                <p>{rec.contraindications.join(', ') || 'None'}</p>
+                                                <p>{renderArray(rec?.contraindications)}</p>
                                             </div>
                                         </div>
                                     </div>

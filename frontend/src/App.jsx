@@ -14,6 +14,7 @@ import Health from './components/Health';
 import TestConnection from './components/TestConnection';
 import './components/styles/main.css';
 import axios from 'axios';
+import logo from '/public/logo.jpg';
 
 function App() {
     // State for farming section
@@ -100,6 +101,10 @@ function App() {
 
                 <footer className="footer">
                     <div className="footer-content">
+                    <div className="footer-logo-section">
+                            <img src={logo} alt="EcoAyur Logo" className="footer-logo" />
+                            <h3>EcoAyur</h3>
+                        </div>
                         <p className="footer-text">
                             Made for a 24-hour datathon, the first ever in Telangana State, named 'DATANYX 24' by team ByteSquad.
                         </p>
