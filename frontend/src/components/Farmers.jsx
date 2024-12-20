@@ -347,7 +347,9 @@ const Farmers = () => {
 
 
     return (
-        <div className="farmers-container">
+        <div className="farmers-wrapper">
+        <div className="farmers-background"></div>
+        <div className="farmers-content">
             <div className="form-container">
                 <div className="language-selector">
                 <span className="select-label">{translations[language].languageLabel}</span> 
@@ -457,6 +459,7 @@ const Farmers = () => {
                 )}
 
                 {error && <div className="error-message">{error}</div>}
+            </div>
             </div>
         </div>
     );
