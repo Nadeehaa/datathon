@@ -1,4 +1,4 @@
-#!/home/home/ecoayur/backend/.venv/bin/python3.11
+#!/home/home/ecoayur/backend/.venv/bin/python3.12
 # -*- coding: utf-8 -*-
 import re
 import sys

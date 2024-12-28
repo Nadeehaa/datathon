@@ -1,9 +1,11 @@
 import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
+  plugins: [react()],
   build: {
-    outDir: 'dist', // Specifies the output directory for build files
-    sourcemap: true, // Enable source maps for debugging
+    outDir: 'dist',
+    sourcemap: true,
     rollupOptions: {
       output: {
         chunkFileNames: 'assets/js/[name]-[hash].js',
@@ -13,15 +15,22 @@ export default defineConfig({
     },
   },
   define: {
-    'process.env': { ...process.env }, // Ensures process.env is accessible
+    'process.env': { ...process.env },
   },
   resolve: {
     alias: {
-      '@': '/src', // Alias for cleaner imports
+      '@': '/src',
     },
   },
   server: {
-    port: 3000, // Development server port
-    open: true, // Automatically open the app in the browser
-  },
+    port: 3000,
+    open: true,
+    proxy: {
+      '/api': {
+        target: process.env.VITE_API_URL || 'http://localhost:5000',
+        changeOrigin: true,
+        secure: false,
+      }
+    }
+  }
 });
