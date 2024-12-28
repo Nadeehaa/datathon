@@ -1,0 +1,44 @@
+services:
+  - type: web
+    name: ecoayur
+    env: python
+    buildCommand: |
+      # Install Python dependencies
+      cd backend && pip install -r requirements.txt
+      
+      # Install and build frontend
+      cd ../frontend 
+      npm install
+      npm run build
+      
+      # Ensure static directory exists and copy build files
+      mkdir -p ../backend/static
+      cp -r dist/* ../backend/static/
+    
+    startCommand: cd backend && gunicorn app:app --workers 4 --timeout 120 --bind 0.0.0.0:$PORT
+    
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
+      - key: NODE_VERSION
+        value: 18.0.0
+      - key: FLASK_ENV
+        value: production
+      - key: FLASK_APP
+        value: app.py
+    
+    healthCheckPath: /health
+    autoDeploy: true
+    
+    # Resource allocation
+    disk:
+      name: ecoayur-data
+      mountPath: /data
+      sizeGB: 1
+    
+    # Scaling configuration
+    scaling:
+      minInstances: 1
+      maxInstances: 1
+      targetMemoryPercent: 80
+      targetCPUPercent: 80
