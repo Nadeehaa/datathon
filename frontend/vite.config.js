@@ -14,22 +14,11 @@ export default defineConfig({
       },
     },
   },
-  define: {
-    'process.env': { ...process.env },
-  },
-  resolve: {
-    alias: {
-      '@': '/src',
-    },
-  },
   server: {
-    port: 3000,
-    open: true,
     proxy: {
-      '/api': {
-        target: process.env.VITE_API_URL || 'http://localhost:5000',
+      '/recommend': {
+        target: 'http://localhost:5000',
         changeOrigin: true,
-        secure: false,
       }
     }
   }
