@@ -5,7 +5,13 @@ import traceback
 import os
 
 app = Flask(__name__, static_folder='static')
-CORS(app)
+CORS(app, resources={
+    r"/*": {
+        "origins": ["http://localhost:5173", "https://your-frontend-name.onrender.com"],
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type"]
+    }
+})
 
 # Initialize the herbal recommendation system
 herbal_system = HerbalRecommendationSystem()
@@ -24,14 +30,10 @@ def get_recommendations():
             "traceback": traceback.format_exc()
         }), 500
 
-# Serve frontend
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def serve(path):
-    if path != "" and os.path.exists(app.static_folder + '/' + path):
-        return send_from_directory(app.static_folder, path)
-    else:
-        return send_from_directory(app.static_folder, 'index.html')
+# Health check endpoint
+@app.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({"status": "healthy"}), 200
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))

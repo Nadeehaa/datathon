@@ -1,13 +1,13 @@
 services:
   - type: web
-    name: ecoayur
+    name: herbal-backend
     env: python
     buildCommand: |
       # Install Python dependencies
       cd backend && pip install -r requirements.txt
       
       # Install and build frontend
-      cd ../frontend 
+      cd ../frontend
       npm install
       npm run build
       
@@ -26,13 +26,15 @@ services:
         value: production
       - key: FLASK_APP
         value: app.py
+      - key: VITE_API_URL
+        value: https://herbal-backend.onrender.com
     
     healthCheckPath: /health
     autoDeploy: true
     
     # Resource allocation
     disk:
-      name: ecoayur-data
+      name: herbal-data
       mountPath: /data
       sizeGB: 1
     
