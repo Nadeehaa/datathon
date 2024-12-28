@@ -10,9 +10,8 @@ app = Flask(__name__)
 CORS(app, resources={
     r"/*": {
         "origins": [
-            "https://datathon-15cebn172-haniyakonains-projects.vercel.app/", 
-            "http://localhost:3000",
-            "http://localhost:5173"  
+            "https://ecoayur-frontend.onrender.com",
+            "http://localhost:5173",  # For local development
         ]
     }
 })
@@ -31,12 +30,15 @@ def get_recommendations():
         
         return jsonify(recommendations), 200
     except Exception as e:
-        return jsonify({"error": str(e), "traceback": traceback.format_exc()}), 500
+        return jsonify({
+            "error": str(e), 
+            "traceback": traceback.format_exc()
+        }), 500
 
 @app.route('/', methods=['GET'])
 def home():
     return "Herbal Recommendation API is running!"
 
-# Add this for Vercel
 if __name__ == '__main__':
-    app.run()
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
