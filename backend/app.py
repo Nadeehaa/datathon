@@ -16,9 +16,13 @@ ALLOWED_ORIGINS = [
 
 CORS(app, resources={
     r"/*": {
-        "origins": ALLOWED_ORIGINS,
+        "origins": [
+            "https://*.vercel.app",
+            "http://localhost:5173",
+            "http://localhost:3000"
+        ],
         "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type", "Authorization"]
+        "allow_headers": ["Content-Type"]
     }
 })
 
