@@ -30,7 +30,7 @@ const SymptomChecker = () => {
 
         try {
             const response = await axios.post(
-                `${process.env.REACT_APP_BACKEND_URL}/recommend`,
+                `${import.meta.env.VITE_API_URL}/api/recommend`,
                 {
                     symptoms: selectedSymptoms,
                 }
