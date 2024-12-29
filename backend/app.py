@@ -17,12 +17,12 @@ ALLOWED_ORIGINS = [
 # Enable CORS for allowed origins
 CORS(app,
     resources={r"/*": {
-        "origins": ALLOWED_ORIGINS,
+        "origins": ["http://localhost:5173", "http://localhost:3000", "http://localhost:5000"],
         "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type"],
+        "allow_headers": ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+        "expose_headers": ["Content-Type"],
         "supports_credentials": True
     }})
-
 # Initialize the herbal recommendation system
 herbal_system = HerbalRecommendationSystem()
 
