@@ -10,16 +10,16 @@ const SymptomChecker = () => {
     const [error, setError] = useState(null);
 
     const handleSymptomSelect = (symptom) => {
-        setSelectedSymptoms(prev => 
-            prev.includes(symptom) 
-                ? prev.filter(s => s !== symptom)
+        setSelectedSymptoms((prev) =>
+            prev.includes(symptom)
+                ? prev.filter((s) => s !== symptom)
                 : [...prev, symptom]
         );
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (selectedSymptoms.length === 0) {
             setError('Please select at least one symptom');
             return;
@@ -29,9 +29,12 @@ const SymptomChecker = () => {
         setError(null);
 
         try {
-            const response = await axios.post('http://localhost:5000/recommend', {
-                symptoms: selectedSymptoms
-            });
+            const response = await axios.post(
+                `${process.env.REACT_APP_BACKEND_URL}/recommend`,
+                {
+                    symptoms: selectedSymptoms,
+                }
+            );
 
             // Validate response data
             if (!response.data || !Array.isArray(response.data)) {
@@ -48,20 +51,17 @@ const SymptomChecker = () => {
         }
     };
 
-    // Helper function to safely render arrays
     const renderArray = (arr, separator = ', ') => {
         if (!arr || !Array.isArray(arr)) return 'None';
         return arr.length > 0 ? arr.join(separator) : 'None';
     };
 
-    // Helper function to safely render text
     const renderText = (text, defaultText = 'Not available') => {
         return text || defaultText;
     };
 
-    // Helper function to safely render number
     const renderNumber = (num, defaultText = 'Not available') => {
-        return (num !== undefined && num !== null) ? num : defaultText;
+        return num !== undefined && num !== null ? num : defaultText;
     };
 
     return (
@@ -69,16 +69,18 @@ const SymptomChecker = () => {
             <div className="symptom-selection">
                 <h2>Select Your Symptoms</h2>
                 {error && <div className="error-message">{error}</div>}
-                
+
                 <form onSubmit={handleSubmit}>
                     {Object.entries(symptoms).map(([category, { title, symptoms: categorySymptoms }]) => (
                         <div key={category} className="symptom-category">
                             <h3>{title}</h3>
                             <div className="symptoms-grid">
                                 {categorySymptoms.map((symptom) => (
-                                    <div 
+                                    <div
                                         key={symptom}
-                                        className={`symptom-chip ${selectedSymptoms.includes(symptom) ? 'selected' : ''}`}
+                                        className={`symptom-chip ${
+                                            selectedSymptoms.includes(symptom) ? 'selected' : ''
+                                        }`}
                                         onClick={() => handleSymptomSelect(symptom)}
                                     >
                                         {symptom}
@@ -95,7 +97,7 @@ const SymptomChecker = () => {
                                 {selectedSymptoms.map((symptom) => (
                                     <div key={symptom} className="selected-chip">
                                         {symptom}
-                                        <span 
+                                        <span
                                             className="remove-symptom"
                                             onClick={() => handleSymptomSelect(symptom)}
                                         >
@@ -107,8 +109,8 @@ const SymptomChecker = () => {
                         </div>
                     )}
 
-                    <button 
-                        type="submit" 
+                    <button
+                        type="submit"
                         className="submit-button"
                         disabled={loading || selectedSymptoms.length === 0}
                     >
@@ -189,11 +191,7 @@ const SymptomChecker = () => {
                 </div>
             )}
 
-            {error && (
-                <div className="error-message">
-                    {error}
-                </div>
-            )}
+            {error && <div className="error-message">{error}</div>}
 
             {loading && (
                 <div className="loading-spinner">

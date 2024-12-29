@@ -5,18 +5,20 @@ import os
 
 app = Flask(__name__)
 
-# Dynamic CORS configuration based on environment
 FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:5173')
+
+
 ALLOWED_ORIGINS = [
     FRONTEND_URL,
-    'http://localhost:5173',
-    'http://localhost:3000',
-    'http://localhost:5000'
+    'http://localhost:5173',  # Local development URL
+    'http://localhost:3000',  # Another local dev URL if needed
+    'http://localhost:5000'   # Another local dev URL if needed
 ]
 
+# Enable CORS for allowed origins
 CORS(app, 
      resources={r"/*": {
-         "origins": ["https://ecoayur.vercel.app", "http://localhost:5173"],
+         "origins": ALLOWED_ORIGINS,
          "methods": ["GET", "POST", "OPTIONS"],
          "allow_headers": ["Content-Type"],
          "supports_credentials": True
