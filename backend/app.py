@@ -7,7 +7,6 @@ app = Flask(__name__)
 
 FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:5173')
 
-
 ALLOWED_ORIGINS = [
     FRONTEND_URL,
     'http://localhost:5173',  # Local development URL
@@ -16,16 +15,27 @@ ALLOWED_ORIGINS = [
 ]
 
 # Enable CORS for allowed origins
-CORS(app, 
-     resources={r"/*": {
-         "origins": ALLOWED_ORIGINS,
-         "methods": ["GET", "POST", "OPTIONS"],
-         "allow_headers": ["Content-Type"],
-         "supports_credentials": True
-     }})
+CORS(app,
+    resources={r"/*": {
+        "origins": ALLOWED_ORIGINS,
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type"],
+        "supports_credentials": True
+    }})
 
 # Initialize the herbal recommendation system
 herbal_system = HerbalRecommendationSystem()
+
+@app.route('/', methods=['GET'])
+def root():
+    return jsonify({
+        "message": "Welcome to EcoAyur API",
+        "version": "1.0.0",
+        "endpoints": {
+            "health_check": "/api/health",
+            "recommendations": "/api/recommend"
+        }
+    }), 200
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
@@ -41,15 +51,15 @@ def get_recommendations():
         symptoms = data.get('symptoms', [])
         if not symptoms:
             return jsonify({"error": "No symptoms provided"}), 400
-        
+            
         # Get recommendations from the ML model
         recommendations = herbal_system.get_recommendations(symptoms)
-        
+            
         return jsonify({
             "success": True,
             "recommendations": recommendations
         }), 200
-        
+            
     except Exception as e:
         print(f"Error in get_recommendations: {str(e)}")  # Server-side logging
         return jsonify({
