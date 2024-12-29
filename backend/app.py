@@ -14,17 +14,13 @@ ALLOWED_ORIGINS = [
     'http://localhost:5000'
 ]
 
-CORS(app, resources={
-    r"/*": {
-        "origins": [
-            "https://*.vercel.app",
-            "http://localhost:5173",
-            "http://localhost:3000"
-        ],
-        "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type"]
-    }
-})
+CORS(app, 
+     resources={r"/*": {
+         "origins": ["https://ecoayur.vercel.app", "http://localhost:5173"],
+         "methods": ["GET", "POST", "OPTIONS"],
+         "allow_headers": ["Content-Type"],
+         "supports_credentials": True
+     }})
 
 # Initialize the herbal recommendation system
 herbal_system = HerbalRecommendationSystem()
