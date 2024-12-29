@@ -363,6 +363,27 @@ const BlogPost = () => {
                 "Use appropriate dosage only"
             ]
         },
+        licorice: {
+            name: "Licorice (Yashtimadhu)",
+            hindi: "मुलेठी (Mulethi)",
+            telugu: "అతి మధురం (Ati Madhuram)",
+            description: "Licorice, known as Yashtimadhu in Ayurveda, is one of the most widely used herbs in traditional medicine systems worldwide. It's particularly valued for its ability to harmonize and enhance the effects of other herbs while providing its own powerful therapeutic benefits.",
+            benefits: [
+                "Supports respiratory health",
+                "Soothes digestive system",
+                "Natural expectorant",
+                "Helps maintain adrenal health",
+                "Supports immune function",
+                "Promotes oral health"
+            ],
+            usage: "Can be taken as powder, tea, tablets, or in combination with other herbs. Often used in cough syrups and throat lozenges.",
+            precautions: [
+                "May increase blood pressure",
+                "Not recommended for long-term use",
+                "Avoid during pregnancy",
+                "Can interact with certain medications"
+            ]
+        },
         manjistha: {
             name: "Manjistha",
             hindi: "मंजिष्ठा (Manjistha)",
@@ -470,6 +491,284 @@ const BlogPost = () => {
                 "Use essential oil with caution",
                 "Not recommended in large amounts during pregnancy",
                 "May affect iron absorption"
+            ]
+        },
+        pippali: {
+            name: "Pippali (Long Pepper)",
+            hindi: "पिप्पली (Pippali)",
+            telugu: "పిప్పలి (Pippali)",
+            description: "Pippali is a powerful digestive and respiratory tonic that has been used in Ayurveda for thousands of years. It's particularly known for its ability to enhance the bioavailability of other herbs and support the body's natural healing processes.",
+            benefits: [
+                "Improves digestion",
+                "Enhances nutrient absorption",
+                "Supports respiratory health",
+                "Boosts metabolism",
+                "Strengthens immune system",
+                "Helps with coughs and colds"
+            ],
+            usage: "Can be taken as powder, tablet, or in combination with other herbs. Often used in small amounts due to its potency.",
+            precautions: [
+                "May increase body heat",
+                "Use in moderation during pregnancy",
+                "Can interact with medications",
+                "Not recommended for people with ulcers"
+            ]
+        },
+        punarnava: {
+            name: "Punarnava",
+            hindi: "पुनर्नवा (Punarnava)",
+            telugu: "గలిజేరు (Galijeru)",
+            description: "Punarnava, meaning 'one that renews the body', is a remarkable herb known for its rejuvenating properties. It's particularly valued for its ability to support kidney function and maintain proper fluid balance in the body.",
+            benefits: [
+                "Supports kidney function",
+                "Maintains fluid balance",
+                "Anti-inflammatory properties",
+                "Improves liver function",
+                "Supports heart health",
+                "Helps with joint pain"
+            ],
+            usage: "Available as powder, tablet, or decoction. Best taken under professional guidance.",
+            precautions: [
+                "May interact with diuretic medications",
+                "Use with caution during pregnancy",
+                "Monitor if taking blood pressure medications",
+                "May affect blood sugar levels"
+            ]
+        },
+        pushkarmool: {
+            name: "Pushkarmool",
+            hindi: "पुष्करमूल (Pushkarmool)",
+            telugu: "పుష్కరమూలం (Pushkaramoolam)",
+            description: "Pushkarmool is a highly regarded herb in Ayurveda, particularly known for its effectiveness in supporting respiratory health. It's one of the primary herbs used for maintaining healthy breathing and lung function.",
+            benefits: [
+                "Supports respiratory health",
+                "Helps with asthma and bronchitis",
+                "Anti-inflammatory properties",
+                "Relieves cough",
+                "Improves breathing",
+                "Supports heart health"
+            ],
+            usage: "Usually taken as powder or decoction. Can be combined with other respiratory herbs for enhanced benefits.",
+            precautions: [
+                "Use under professional guidance",
+                "Not recommended during pregnancy",
+                "May interact with respiratory medications",
+                "Avoid in cases of bleeding disorders"
+            ]
+        },
+        rasna: {
+            name: "Rasna",
+            hindi: "रास्ना (Rasna)",
+            telugu: "చేతిపాన (Chetipana)",
+            description: "Rasna is a powerful herb known for its effectiveness in managing joint pain and respiratory conditions. It's particularly valued in Ayurveda for its anti-inflammatory properties and ability to support the respiratory system.",
+            benefits: [
+                "Relieves joint pain",
+                "Supports respiratory health",
+                "Anti-inflammatory properties",
+                "Helps with sciatica",
+                "Reduces swelling",
+                "Improves circulation"
+            ],
+            usage: "Can be taken as powder, decoction, or oil for external application. Often combined with other herbs.",
+            precautions: [
+                "Use with caution during pregnancy",
+                "May interact with pain medications",
+                "Consult healthcare provider if on blood thinners",
+                "Monitor if taking blood pressure medications"
+            ]
+        },
+        shatavari: {
+            name: "Shatavari",
+            hindi: "शतावरी (Shatavari)",
+            telugu: "పిల్లి పీచర (Pilli Peechara)",
+            description: "Shatavari, known as the 'Queen of Herbs', is one of the most important herbs in Ayurveda for women's health. Its name means 'she who possesses a hundred husbands', referring to its ability to promote fertility and vitality.",
+            benefits: [
+                "Supports women's reproductive health",
+                "Enhances fertility",
+                "Maintains hormonal balance",
+                "Improves lactation",
+                "Boosts immunity",
+                "Provides antioxidant support"
+            ],
+            usage: "Can be taken as powder, tablet, or liquid extract. Often mixed with milk or water.",
+            precautions: [
+                "May not be suitable for those with estrogen-sensitive conditions",
+                "Consult healthcare provider during pregnancy",
+                "Can cause allergic reactions in some people",
+                "May interact with certain medications"
+            ]
+        },
+        triphala: {
+            name: "Triphala",
+            hindi: "त्रिफला (Triphala)",
+            telugu: "త్రిఫల (Triphala)",
+            description: "Triphala is a traditional Ayurvedic formulation consisting of three fruits: Amalaki, Bibhitaki, and Haritaki. It's one of the most respected and commonly used formulations in Ayurveda.",
+            benefits: [
+                "Gentle detoxification",
+                "Improves digestion",
+                "Supports eye health",
+                "Boosts immunity",
+                "Maintains healthy weight",
+                "Promotes longevity"
+            ],
+            usage: "Can be taken as powder, tablet, or liquid extract. Best taken before bed or on an empty stomach.",
+            precautions: [
+                "May cause loose stools initially",
+                "Use with caution during pregnancy",
+                "Can interact with certain medications",
+                "Not recommended for severe diarrhea"
+            ]
+        },
+        tulsi: {
+            name: "Tulsi (Holy Basil)",
+            hindi: "तुलसी (Tulsi)",
+            telugu: "తులసి (Tulasi)",
+            description: "Tulsi, also known as Holy Basil, is one of the most sacred and revered herbs in India. It's known as 'The Queen of Herbs' and is renowned for its diverse healing properties.",
+            benefits: [
+                "Boosts immunity",
+                "Supports respiratory health",
+                "Reduces stress and anxiety",
+                "Anti-inflammatory properties",
+                "Improves digestion",
+                "Enhances stamina"
+            ],
+            usage: "Can be consumed fresh, as tea, powder, or in supplement form. Often used in ritual and spiritual practices.",
+            precautions: [
+                "May interact with blood thinning medications",
+                "Use with caution during pregnancy",
+                "Can affect fertility in large doses",
+                "May interact with diabetes medications"
+            ]
+        },
+        vacha: {
+            name: "Vacha",
+            hindi: "वच (Vacha)",
+            telugu: "వస (Vasa)",
+            description: "Vacha is a powerful herb known for its effects on the nervous system and cognitive function. It's particularly valued for its ability to enhance memory and mental clarity.",
+            benefits: [
+                "Improves memory and concentration",
+                "Enhances speech and voice",
+                "Supports nervous system",
+                "Aids in respiratory health",
+                "Promotes mental clarity",
+                "Helps with meditation practices"
+            ],
+            usage: "Should be used in small amounts and under professional guidance. Available as powder or tablet.",
+            precautions: [
+                "Not recommended during pregnancy",
+                "Should be properly processed before use",
+                "Can cause nausea in high doses",
+                "May interact with psychiatric medications"
+            ]
+        },
+        sariva: {
+            name: "Sariva (Indian Sarsaparilla)",
+            hindi: "सारिवा (Sariva)",
+            telugu: "సుగంధిపాల (Sugandhipala)",
+            description: "Sariva, also known as Indian Sarsaparilla, is a cooling herb renowned for its blood-purifying properties. In Ayurveda, it's considered one of the best herbs for maintaining healthy skin and supporting the body's natural detoxification processes. The herb is particularly valued for its ability to balance pitta dosha and cool the body.",
+            benefits: [
+                "Purifies blood and lymphatic system",
+                "Supports healthy skin",
+                "Maintains body temperature",
+                "Enhances complexion",
+                "Supports urinary health",
+                "Anti-inflammatory properties"
+            ],
+            usage: "Can be taken as decoction, powder, or tablet. Often used in combination with other blood-purifying herbs. Commonly included in skin care formulations.",
+            precautions: [
+                "May lower blood pressure",
+                "Use with caution during pregnancy",
+                "Can increase cooling in the body",
+                "May interact with diabetes medications"
+            ]
+        },
+        sarpagandha: {
+            name: "Sarpagandha",
+            hindi: "सर्पगंधा (Sarpagandha)",
+            telugu: "సర్పగంధ (Sarpagandha)",
+            description: "Sarpagandha is a powerful herb known for its remarkable effects on the cardiovascular and nervous systems. Its name literally means 'snake-smelling', and it has been used in traditional medicine for centuries. The herb is particularly valued for its ability to promote relaxation and support healthy blood pressure levels.",
+            benefits: [
+                "Supports cardiovascular health",
+                "Promotes mental calmness",
+                "Helps maintain healthy blood pressure",
+                "Aids in anxiety management",
+                "Supports quality sleep",
+                "Reduces nervous tension"
+            ],
+            usage: "Should be taken under professional guidance due to its potent nature. Available as powder, tablet, or extract. Often used in combination with other calming herbs.",
+            precautions: [
+                "Not recommended during pregnancy or breastfeeding",
+                "May interact with blood pressure medications",
+                "Can cause drowsiness",
+                "Should not be combined with sedative medications"
+            ]
+        },
+        shankhpushpi: {
+            name: "Shankhpushpi",
+            hindi: "शंखपुष्पी (Shankhpushpi)",
+            telugu: "శంఖపుష్పి (Shankhapushpi)",
+            description: "Shankhpushpi, named after its flowers which resemble a conch shell, is one of the most powerful herbs for enhancing memory and cognitive function. In Ayurveda, it's considered a 'Medhya Rasayana' - a herb that rejuvenates the mind and intellect.",
+            benefits: [
+                "Enhances memory and learning",
+                "Improves cognitive function",
+                "Reduces anxiety and stress",
+                "Supports mental clarity",
+                "Promotes restful sleep",
+                "Helps with attention and focus"
+            ],
+            usage: "Available as powder, tablet, or syrup. Can be taken with milk or honey. Often used in brain tonics and memory-enhancing formulations.",
+            precautions: [
+                "May interact with anti-anxiety medications",
+                "Use with caution during pregnancy",
+                "Can cause mild drowsiness",
+                "Monitor if taking thyroid medications"
+            ]
+        },
+        turmeric: {
+            name: "Turmeric",
+            hindi: "हल्दी (Haldi)",
+            telugu: "పసుపు (Pasupu)",
+            description: "Turmeric, often called the 'Golden Spice', is one of the most researched and valuable herbs in Ayurveda. Its active compound, curcumin, is renowned for its powerful anti-inflammatory and antioxidant properties. This sacred herb has been used for thousands of years in both culinary and medicinal applications.",
+            benefits: [
+                "Powerful anti-inflammatory",
+                "Strong antioxidant properties",
+                "Supports joint health",
+                "Enhances immune function",
+                "Promotes healthy digestion",
+                "Supports liver function",
+                "Maintains healthy skin",
+                "Aids in wound healing"
+            ],
+            usage: "Can be used fresh or dried in cooking, taken as supplements, or applied externally. Often combined with black pepper to enhance absorption. Available as powder, capsules, or in various formulations.",
+            precautions: [
+                "May interact with blood-thinning medications",
+                "Can affect iron absorption",
+                "Use with caution before surgery",
+                "May interact with diabetes medications",
+                "High doses may cause digestive issues"
+            ]
+        },
+        vidari: {
+            name: "Vidari",
+            hindi: "विदारी (Vidari)",
+            telugu: "విదారి (Vidari)",
+            description: "Vidari is a rejuvenating herb particularly known for its benefits to women's health and vitality. In Ayurveda, it's classified as a Rasayana (rejuvenative) herb and is considered especially beneficial for supporting reproductive health and maintaining overall strength and energy.",
+            benefits: [
+                "Supports women's reproductive health",
+                "Enhances strength and vitality",
+                "Promotes healthy lactation",
+                "Boosts immune system",
+                "Maintains hormonal balance",
+                "Provides anti-aging benefits",
+                "Supports muscle strength"
+            ],
+            usage: "Can be taken as powder mixed with milk or water, or in tablet form. Often combined with other rejuvenating herbs for enhanced benefits.",
+            precautions: [
+                "May affect blood sugar levels",
+                "Use with caution during pregnancy",
+                "Can interact with hormone medications",
+                "Monitor if diabetic",
+                "Consult healthcare provider if on immunosuppressants"
             ]
         }
     };

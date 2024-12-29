@@ -1,11 +1,9 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  plugins: [react()],
   build: {
-    outDir: 'dist',
-    sourcemap: true,
+    outDir: 'dist', // Specifies the output directory for build files
+    sourcemap: true, // Enable source maps for debugging
     rollupOptions: {
       output: {
         chunkFileNames: 'assets/js/[name]-[hash].js',
@@ -14,12 +12,16 @@ export default defineConfig({
       },
     },
   },
+  define: {
+    'process.env': { ...process.env }, // Ensures process.env is accessible
+  },
+  resolve: {
+    alias: {
+      '@': '/src', // Alias for cleaner imports
+    },
+  },
   server: {
-    proxy: {
-      '/recommend': {
-        target: 'http://localhost:5000',
-        changeOrigin: true,
-      }
-    }
-  }
+    port: 3000, // Development server port
+    open: true, // Automatically open the app in the browser
+  },
 });

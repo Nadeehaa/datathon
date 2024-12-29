@@ -189,10 +189,9 @@ const Health = () => {
                             </p>
                         </div>
 
-                        <div className="practitioner-actions">
-                            <button className="book-btn">Book Appointment</button>
+                            <div className="practitioner-actions">
                             <button
-                                className="directions-btn"
+                                className="book-btn"
                                 onClick={() => window.open(`https://www.google.com/maps/place/?q=place_id:${facility.placeId}`, '_blank')}
                             >
                                 Get Directions
