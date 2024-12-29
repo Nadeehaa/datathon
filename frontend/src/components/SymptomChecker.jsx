@@ -36,15 +36,20 @@ const SymptomChecker = () => {
                 }
             );
 
-            // Validate response data
-            if (!response.data || !Array.isArray(response.data)) {
-                throw new Error('Invalid response format from server');
+            // Check for success flag
+            if (!response.data.success) {
+                throw new Error(response.data.error || 'Failed to get recommendations');
             }
 
-            // Set recommendations from response data
-            setRecommendations(response.data);
+            // Access recommendations array from the response
+            setRecommendations(response.data.recommendations);
         } catch (err) {
-            setError(err.response?.data?.message || 'Failed to fetch recommendations. Please try again.');
+            setError(
+                err.response?.data?.error || 
+                err.response?.data?.message || 
+                err.message || 
+                'Failed to fetch recommendations. Please try again.'
+            );
             console.error('Recommendation error:', err.response || err);
         } finally {
             setLoading(false);
